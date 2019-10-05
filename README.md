@@ -1,68 +1,58 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React 공부
 
-## Available Scripts
+## 1. react 환경 설정
 
-In the project directory, you can run:
+* node.js 설치
+  * node -v, npm -v 확인
+* npx 설치
+  * npm install npx -g
+* git 설치
+  * git --version
 
-### `npm start`
+* create-react-app 으로 환경구성
+  * npx create-react-app 패키지명
+  * 설치후 npm start
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 2. react
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+* ReactDOM을 통한 html 랜더링 처리.
+  * 렌더링은 하나의 component만 가능함!!
+  * 랜더링을 하는 Component가 다른 Component를 사용하여 동적으로 페이징 처리
 
-### `npm test`
+* Component는 앞에 네이밍이 대문자로 시작해야 한다.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```javaScript
+// function의 파일명 앞자리가 대문자.
+function Food({fav}){
+  console.log({fav});
+  return <h1>I like {fav}</h1>
+}
+```
 
-### `npm run build`
+* Component에 속성 전달이 가능하다.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```javaScript
+import React from 'react';
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+// App에서 호출한 Food component의 fav key를 사용
+function Food({fav}){
+  console.log({fav});
+  return <h1>I like {fav}</h1>
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function App() {
+  return (
+    <div>
+      hello world
+      <Food fav="kimchi"/>      // fav라는 key에 kimchi라는 value
+      <Food fav="ramen"/>
+      <Food fav="samgiupsal"/>
+    </div>
+  );
+}
 
-### `npm run eject`
+export default App;
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* JSX를 통한 recat와 javascript의 조합
+  * jsx는 javascript + html
