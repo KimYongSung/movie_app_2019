@@ -1,55 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Food({ name, picture, rating }) {
-  console.log({ name });
-  return <div>
-    <h1>I like {name}</h1>
-    <img src={picture} alt={name} />
-    <h4>{rating} / 5</h4>
-  </div>
-}
+// class component는 state
+class App extends React.Component{
+  
+  state = {
+    count: 0
+  };
 
-const foodILike = [
-  { 
-    id: 1,
-    name: "kimbab", 
-    img: "http://recipe1.ezmember.co.kr/cache/recipe/2016/04/08/1d26c0444e724bca8ed271b24da0057a1.jpg" ,
-    rating: 5
-  },
-  { 
-    id: 2,
-    name: "suhise", 
-    img: "http://recipe1.ezmember.co.kr/cache/recipe/2016/04/08/1d26c0444e724bca8ed271b24da0057a1.jpg" ,
-    rating: 5
-  },
-  { 
-    id: 3, 
-    name: "bibimbab", 
-    img: "http://recipe1.ezmember.co.kr/cache/recipe/2016/04/08/1d26c0444e724bca8ed271b24da0057a1.jpg" ,
-    rating: 5
-  },
-  { 
-    id: 4, 
-    name: "samgusal", 
-    img: "http://recipe1.ezmember.co.kr/cache/recipe/2016/04/08/1d26c0444e724bca8ed271b24da0057a1.jpg" ,
-    rating: 5
-  }
-]
+  add = ()=>{
+    console.log("add");
+  };
+  minus = ()=>{
+    console.log("minus");
+  };
 
-Food.propTypes = {
-  name : PropTypes.string.isRequired,
-  picture : PropTypes.string.isRequired,
-  rating : PropTypes.number
-}
-
-function App() {
-  return (
-    <div>
-      <h1>hello world</h1>
-      {foodILike.map(dish => <Food key={dish.id} name={dish.name} picture={dish.img} rating={dish.rating}/>)}
-    </div>
-  );
+  // React는 class component의 render method를 실행한다.
+  render(){
+    return (<div>
+              <h1>The number is : {this.state.count}</h1>
+              <button onClick={this.add}>Add</button>
+              <button onClick={this.minus}>Minus</button>
+            </div>
+    );
+  }  
 }
 
 export default App;

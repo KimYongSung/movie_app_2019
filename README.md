@@ -13,13 +13,24 @@
   * npx create-react-app 패키지명
   * 설치후 npm start
 
-## 2. React 정리
-
-### 2.1 Component
+## 2. JSX & Props
 
 * ReactDOM을 통한 html 랜더링 처리.
   * 렌더링은 하나의 component만 가능함!!
   * 랜더링을 하는 Component가 다른 Component를 사용하여 동적으로 페이징 처리
+
+```javaScript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+/* index.html에 존재하는 ReactDOM에 의해 랜더링 될 div id를 설정 */
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+```html
+<div id="root"></div> <!-- index.html에 존재하는 ReactDOM에 의해 랜더링 될 div-->
+```
 
 * Component Function은 앞에 네이밍이 대문자로 시작해야 한다.
 
@@ -59,6 +70,12 @@ export default App;
 * JSX를 통한 recat와 javascript의 조합으로 사용이 가능하다.
   * jsx는 javascript + html
 
+* 동적으로 jsx에 Rendenig이 가능하다.
+  * React에서 동적인 리스트 생성시 **props.key**를 통하여 적절한 유니크 값을 지정해줘야 한다.
+  * 키를 지정하지 않을 경우 배열의 인덱스를 기본 키로 사용함.
+    * 기본 인덱스로 지정시 배열의 순서가 변경되거나 아이템을 추가/삭제 할 때 문제 발생함.
+    * 키는 전역에서 고유할 필요 없이 컴포넌트와 관련 아이템 사이에서 고유값을 가져야 함.
+
 ```javaScript
 function Food({name, picture}){
   console.log({name});
@@ -79,20 +96,15 @@ function App() {
   return (
     <div>
       <h1>hello world</h1>
-      {foodILike.map(dish => <Food key={dish.id} name={dish.name} picture={dish.img}/>)}
+      // 동적인 리스트에는 key를 통하여 유니크 값 지정이 필요함.
+      {foodILike.map(dish => <Food key={dish.id} name={dish.name} picture={dish.img}/>)} 
     </div>
   );
 }
 ```
 
-* 동적으로 jsx에 Rendenig이 가능하다.
-  * React에서 동적인 리스트 생성시 **props.key**를 통하여 적절한 유니크 값을 지정해줘야 한다.
-  * 키를 지정하지 않을 경우 배열의 인덱스를 기본 키로 사용함.
-    * 기본 인덱스로 지정시 배열의 순서가 변경되거나 아이템을 추가/삭제 할 때 문제 발생함.
-    * 키는 전역에서 고유할 필요 없이 컴포넌트와 관련 아이템 사이에서 고유값을 가져야 함.
-
 * Component의 props 유효성 검사는 [propType](https://reactjs-kr.firebaseapp.com/docs/typechecking-with-proptypes.html)을 사용함.
-  * npm i prop-types 으로 설치
+  * 설치 명령어 : npm i prop-types
   * Conmponet명.propTypes 에 속성 추가
 
 ```javaScript
@@ -103,3 +115,57 @@ Food.propTypes = {
 }
 ```
 
+## 3. State
+
+* class component React의 Component를 상속받아야 한다.
+  * React는 class component의 render method를 자동으로 실행.
+  * class component는 **state**라고 한다.
+
+```javaScript
+import React from 'react';
+
+class App extends React.Component{
+
+  state = {
+    count: 0
+  };
+
+  render(){
+    return <h1>The number is : {this.state.count}</h1>
+  }
+}
+```  
+
+* react에서 button tag는 자동으로 onClick를 지정한다.
+  * TODO: 자동으로 처리해주는 이벤트에 대한 정리 필요.
+
+```javaScript
+
+import React from 'react';
+
+class App extends React.Component{
+  
+  state = {
+    count: 0
+  };
+
+  add = ()=>{
+    console.log("add");
+  };
+  minus = ()=>{
+    console.log("minus");
+  };
+
+  render(){
+    return (<div>
+              <h1>The number is : {this.state.count}</h1>
+              <button onClick={this.add}>Add</button>
+              <button onClick={this.minus}>Minus</button>
+            </div>
+    );
+  }  
+}
+
+export default App;
+
+```
