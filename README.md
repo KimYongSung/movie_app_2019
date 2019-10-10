@@ -139,10 +139,12 @@ class App extends React.Component{
 * react에서 button tag는 자동으로 onClick를 지정한다.
   * TODO: 자동으로 처리해주는 이벤트에 대한 정리 필요.
 
+* React는 state를 직접 변경시 render를 refresh하지 않는다.  
+* setState를 호출할때만 render를 refresh 한다.
+* React는 **setState를 호출할 때 현재 state를 사용가능하게끔 제공**함.
+* **this.state**를 직접 사용하는 방법은 외부 상태에 의존적이 되므로 권장하지 않음.
+
 ```javaScript
-
-import React from 'react';
-
 class App extends React.Component{
   
   state = {
@@ -150,10 +152,17 @@ class App extends React.Component{
   };
 
   add = ()=>{
-    console.log("add");
+    // this.state를 사용하는 방법은 외부 상태에 의존적이 되므로 권장하지 않음.
+    // bed
+    // this.setState({count: this.state.count +1});
+    // good
+    this.setState(current => ({count: current.count + 1}));
   };
   minus = ()=>{
-    console.log("minus");
+    // bed
+    // this.setState({count: this.state.count -1});
+    // good
+    this.setState(current => ({count: current.count - 1}));
   };
 
   render(){
@@ -163,9 +172,6 @@ class App extends React.Component{
               <button onClick={this.minus}>Minus</button>
             </div>
     );
-  }  
+  }
 }
-
-export default App;
-
 ```
