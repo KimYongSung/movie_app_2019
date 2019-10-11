@@ -1,35 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import axios from "axios";
+import Movie from "./Movie";
 
-// class component는 state
 class App extends React.Component{
-  
   state = {
-    count: 0
+    isLoading: true,
+    movies: []
   };
 
-  add = ()=>{
-    // this.state를 사용하는 방법은 외부 상태에 의존적이 되므로 권장하지 않음.
-    // bed
-    // this.setState({count: this.state.count +1});
-    // good
-    this.setState(current => ({count: current.count + 1}));
-  };
-  minus = ()=>{
-    this.setState(current => ({count: current.count - 1}));
+  loadMovies = async () => {
+    const {data: {data: {movies}}} = await axios.get("https://yts-proxy.now.sh/list_movies.json?sort_by=rating");
+    this.setState({movies, isLoading : false});
+  }
+ 
+  componentDidMount(){
+    this.loadMovies();
   };
 
-  // React는 state를 직접 변경시 render를 refresh하지 않는다.
-  // setState를 호출할때만 render를 refresh 한다.
-  // React는 setState를 호출할 때 현재 state를 사용가능하게끔 제공함.
-  // this.state를 사용하는 방법은 외부 상태에 의존적이 되므로 권장하지 않음.
   render(){
-    return (<div>
-              <h1>The number is : {this.state.count}</h1>
-              <button onClick={this.add}>Add</button>
-              <button onClick={this.minus}>Minus</button>
-            </div>
-    );
+    const {isLoading , movies} = this.state;
+    return <div>
+      {isLoading ? "Loading..." : movies.map( movie=>{
+        return <Movie key={movie.id} id={movie.id} year={movie.year} title={movie.title} summary={movie.summary}/>;
+      })}
+    </div>
   }  
 }
 

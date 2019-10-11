@@ -4,10 +4,9 @@
 
 * node.js 설치
   * node -v, npm -v 확인
+
 * npx 설치
   * npm install npx -g
-* git 설치
-  * git --version
 
 * create-react-app 으로 환경구성
   * npx create-react-app 패키지명
@@ -153,13 +152,13 @@ class App extends React.Component{
 
   add = ()=>{
     // this.state를 사용하는 방법은 외부 상태에 의존적이 되므로 권장하지 않음.
-    // bed
+    // bad
     // this.setState({count: this.state.count +1});
     // good
     this.setState(current => ({count: current.count + 1}));
   };
   minus = ()=>{
-    // bed
+    // bad
     // this.setState({count: this.state.count -1});
     // good
     this.setState(current => ({count: current.count - 1}));
@@ -173,5 +172,79 @@ class App extends React.Component{
             </div>
     );
   }
+}
+```
+
+### 3.1 Component Life Cycle
+
+* React.component는 [Life Cycle](https://ko.reactjs.org/docs/react-component.html#the-component-lifecycle) 존재함.
+
+#### 3.1.1 마운트 ( mount )
+
+* 컴포넌트의 인스턴스가 생성되어 DOM 상에 삽입될 때에 순서대로 호출됨.
+  * constructor()
+  * static getDerivedStateFropProp()
+  * render()
+  * componentDidMount()  
+
+#### 3.1.2 업데이트 ( update )
+
+* props 또는 state가 변경되면 갱신이 발생됨. 컴포넌트가 다시 렌더링될 때 순서대로 호출
+  * static getDerivedStateFromProps()
+  * shouldComponentUpdate()
+  * render()
+  * getSnapshotBeforeUpdate()
+  * componentDidUpdate()
+
+#### 3.1.3 마운트 해제 ( unmount )
+
+* 컴포넌트가 DOM 상에서 제거될 때에 호출됨.
+  * componentWillUnmount()
+
+```javaScript
+class App extends React.Component{
+
+  constructor(props){
+    super(props);
+    // 첫번째 호출
+    console.log("hello");
+  }
+  
+  state = {
+    count: 0
+  };
+
+  add = ()=>{
+    this.setState(current => ({count: current.count + 1}));
+  };
+  minus = ()=>{
+    this.setState(current => ({count: current.count - 1}));
+  };
+
+  componentDidUpdate(){
+    // update 이후 호출
+    console.log("I just updated");
+  };
+
+  componentDidMount(){
+    // mount 이후 호출
+    console.log("component rendered");
+  };
+
+  componentWillUnmount(){
+    // component 종료시
+    console.log("goodbye");
+  };
+
+  render(){
+    // 두번째 호출
+    console.log("I'm rendering");
+    return (<div>
+              <h1>The number is : {this.state.count}</h1>
+              <button onClick={this.add}>Add</button>
+              <button onClick={this.minus}>Minus</button>
+            </div>
+    );
+  }  
 }
 ```
