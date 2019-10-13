@@ -63,7 +63,7 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
 ```
 
 * JSX를 통한 recat와 javascript의 조합으로 사용이 가능하다.
